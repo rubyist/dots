@@ -1,0 +1,35 @@
+#!/usr/bin/env sh
+
+# Hyprland doesn't yet have a three column layout, but this gets me close enough to
+# keep  me from writing C++ code, for now. Create a keybind for it, and use it after
+# you open a third window, or close windows down to 2. It finds the largest window
+# on the workspace and adjusts the the splitratio of the to equalize things.
+
+# get the active window's workspace id
+aw=$(hyprctl -j activewindow | jq -r '.workspace.id')
+
+# save the active window's address to refocus
+aa=$(hyprctl -j activewindow | jq -r '.address')
+
+# get the count of windows on the workspace, only equalize if there are two or three
+n=$(hyprctl -j clients | jq -r "map(select(.workspace.id == $aw))|length")
+
+case $n in
+  2)
+    # focus the largest window on the workspace
+    hyprctl dispatch focuswindow address:$(hyprctl -j clients | jq -r "map(select(.workspace.id == $aw)) | sort_by(.size[0]) | .[-1].address")
+    # splitratio it
+    hyprctl dispatch splitratio -0.3
+    # refocus original active window
+    hyprctl dispatch focuswindow address:$aa
+    ;;
+  3)
+    # focus the largest window on the workspace
+    hyprctl dispatch focuswindow address:$(hyprctl -j clients | jq -r "map(select(.workspace.id == $aw)) | sort_by(.size[0]) | .[-1].address")
+    # splitratio it
+    hyprctl dispatch splitratio 0.3
+    # refocus original active window
+    hyprctl dispatch focuswindow address:$aa
+    ;;
+esac
+
