@@ -1,0 +1,31 @@
+#!/bin/sh
+
+function listworkspaces {
+  ws=$(hyprctl -j workspaces | jq '.[].id' | sort)
+  current=${1:-$(hyprctl -j activewindow | jq '.workspace.id')}
+  printf '(box :class "works" :orientation "v" :halign "center" :valign "start" :space-evenly false :spacing "-5" '
+  for w in ${ws[@]}; do
+    [[ $w == $current ]] && dot="" || dot=""
+    [[ $w == $current ]] && focused="focused" || focused="unfocused"
+    printf '(button :class "%s" :onclick "hyprctl dispatch workspace %s" "%s")' $focused $w $dot
+  done
+  echo -e ')'
+}
+
+function workspaces
+{
+  case ${1%>>*} in
+    "workspace")
+      current=${1#*>>}
+      listworkspaces $current
+      ;;
+    "createworkspace" | "destroyworkspace")
+      listworkspaces
+      ;;
+    *)
+      ;;
+  esac
+}
+
+listworkspaces
+socat -U - UNIX-CONNECT:/tmp/hypr/$(echo $HYPRLAND_INSTANCE_SIGNATURE)/.socket2.sock | while read line; do workspaces $line; done
