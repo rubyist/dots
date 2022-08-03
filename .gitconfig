@@ -1,0 +1,61 @@
+[user]
+	name = Scott Barron
+	email = scott@barron.io
+
+[includeIf "gitdir:~/stord/"]
+  path = ~/.gitconfig-stord
+[includeIf "gitdir:~/src/stord/"]
+  path = ~/.gitconfig-stord
+[includeIf "gitdir:~/src/personal/"]
+  path = ~/.gitconfig-personal
+[includeIf "gitdir:~/src/oss/"]
+  path = ~/.gitconfig-personal
+
+[core]
+	legacyheaders = false
+	autocrlf = input
+	excludesfile = ~/.gitignore
+	editor = vim
+
+[alias]
+	tug = pull --rebase
+	co = checkout
+	st = status
+	ci = commit
+
+[apply]
+	whitespace = nowarn
+
+[color]
+	status = auto
+	branch = auto
+	diff = auto
+	ui = true
+
+[color "branch"]
+       current = 15 bold
+       local = 11
+       remote = 9
+
+[color "status"]
+       added = 15 bold
+       changed = 10 bold
+       untracked = 7
+
+[color "diff"]
+       meta = 6
+       frag = 13
+       old = 8
+       new = 10 bold
+
+[push]
+	default = simple
+
+[magit]
+	hideCampaign = true
+       
+[github]
+	username = rubyist
+
+[init]
+	defaultBranch = main
