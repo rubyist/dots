@@ -14,6 +14,7 @@ aa=$(hyprctl -j activewindow | jq -r '.address')
 # get the count of windows on the workspace, only equalize if there are two or three
 n=$(hyprctl -j clients | jq -r "map(select(.workspace.id == $aw))|length")
 
+echo "active ws: $aw, active add: $aa, num: $n"
 case $n in
   2)
     # focus the largest window on the workspace
@@ -24,8 +25,11 @@ case $n in
     hyprctl dispatch focuswindow address:$aa
     ;;
   3)
+    echo "3 windows"
+    la=$(hyprctl -j clients | jq -r "map(select(.workspace.id == $aw)) | sort_by(.size[0]) | .[-1].address")
+    echo "largest: $la"
     # focus the largest window on the workspace
-    hyprctl dispatch focuswindow address:$(hyprctl -j clients | jq -r "map(select(.workspace.id == $aw)) | sort_by(.size[0]) | .[-1].address")
+    hyprctl dispatch focuswindow address:$la
     # splitratio it
     hyprctl dispatch splitratio 0.3
     # refocus original active window
