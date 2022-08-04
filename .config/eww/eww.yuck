@@ -4,61 +4,55 @@
 
 (defwidget time []
   (box :orientation "v"
-    :class "time"
-    :valign "end"
-    (button hour)
-    (button min)))
+       :class "time"
+       :valign "end"
+    (label :text hour)
+    (label :text min)))
 
 (defpoll hour :interval "1s" "date '+%H'")
 (defpoll min :interval "1s" "date '+%M'")
 
 (defwidget top []
   (box :orientation "v"
-    :space-evenly "false"
-    :valign "center"
-  (workspaces)))
+       :space-evenly "false"
+       :valign "start"
+       :spacing 5
+    (time)))
+
+(defwidget center []
+  (box :orientation "v"
+       :class "ws"
+       :space-evenly "false"
+       :valign "start"
+    (workspaces)))
 
 (defwidget bottom []
   (box :orientation "v"
-    :space-evenly false
-    (time)))
+       :class "bottom"
+       :space-evenly false
+       :valign "end"
+    (button "")))
 
-(defwidget end []
-  (box :orientation "v"
-    :space-evenly "false"
-    :valign "end"
-    :spacing 5
-    (bottom)))
 
 (defwidget bar []
-  (box :class "eww_bar"
-    :orientation "v"
-    :vexpand "false"
-    :hexpand "false"
+  (centerbox :class "eww_bar"
+             :orientation "v"
+             :vexpand "false"
+             :hexpand "false"
     (top)
+    (center)
+    (bottom)
     ))
 
-(defwindow bar
-  :monitor 0
-  :wm-ignore true
-  :windowtype "toolbar"
-  :exclusive true
-  :focusable false
-  :stacking "fg"
-  :geometry (geometry :x "0%"
-                      :y "0%"
-                      :width "20px"
-                      :height "0%"
-                      :anchor "center left")
+(defwindow bar :monitor 0
+               :wm-ignore true
+               :windowtype "toolbar"
+               :exclusive true
+               :focusable false
+               :stacking "fg"
+               :geometry (geometry :x "0%"
+               :y "0%"
+               :width "20px"
+               :height "100%"
+               :anchor "center left")
   (bar))
-
-(defwindow example
-           :monitor 0
-           :geometry (geometry :x "0%"
-                               :y "0px"
-                               :width "50%"
-                               :height "30px"
-                               :anchor "top center")
-           :reserve (struts :distance "40px" :side "top")
-  "example xcontent")
-
