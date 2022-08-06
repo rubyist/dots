@@ -1,13 +1,25 @@
 #!/bin/sh
 
 function listworkspaces {
-  ws=$(hyprctl -j workspaces | jq '.[].id' | sort)
+  atleast=6
+  ws=($(hyprctl -j workspaces | jq '.[].id' | sort))
   current=${1:-$(hyprctl -j activewindow | jq '.workspace.id')}
+  max=$(( ${ws[-1]} > $atleast ? ${ws[-1]} : $atleast))
+
   printf '(box :class "works" :orientation "v" :halign "center" :valign "start" :space-evenly false :spacing "-5" '
-  for w in ${ws[@]}; do
+  for w in $(seq $max); do
     [[ $w == $current ]] && dot="" || dot=""
-    [[ $w == $current ]] && focused="focused" || focused="unfocused"
-    printf '(button :class "%s" :onclick "hyprctl dispatch workspace %s" "%s")' $focused $w $dot
+    if [[ $w == $current ]]; then
+      class="focused"
+    else
+      if printf '%s\0' "${ws[@]}" | grep -Fxqz -- $w; then
+        class="unfocused"
+      else
+        class="empty"
+      fi
+    fi
+
+    printf '(button :class "%s" :onclick "hyprctl dispatch workspace %s" "%s")' $class $w $dot
   done
   echo -e ')'
 }
@@ -18,9 +30,6 @@ function workspaces
     "workspace")
       current=${1#*>>}
       listworkspaces $current
-      ;;
-    "createworkspace" | "destroyworkspace")
-      listworkspaces
       ;;
     *)
       ;;
