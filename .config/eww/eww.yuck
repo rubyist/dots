@@ -2,6 +2,8 @@
   (literal :content workspace))
 (deflisten workspace :initial "" `/home/scott/.config/eww/scripts/workspaces`)
 
+(defpoll mute :interval "1s" `pactl get-sink-mute @DEFAULT_SINK@ | sed -e 's/Mute: //'`)
+
 (defwidget time []
   (box :orientation "v"
        :class "time"
@@ -31,7 +33,10 @@
        :class "bottom"
        :space-evenly false
        :valign "end"
-    (button "")))
+    (eventbox :onscroll "echo {} | sed -e 's/up/+5%/' -e 's/down/-5%/' | xargs pactl set-sink-volume @DEFAULT_SINK@"
+      (button :onclick "pactl set-sink-mute @DEFAULT_SINK@ toggle"
+        :class {mute == "yes" ? "muted" : ""}
+        ""))))
 
 
 (defwidget bar []
@@ -52,7 +57,7 @@
                :stacking "fg"
                :geometry (geometry :x "0%"
                :y "0%"
-               :width "20px"
+               :width "0px"
                :height "100%"
                :anchor "center left")
   (bar))

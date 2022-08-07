@@ -3,7 +3,8 @@
 function listworkspaces {
   atleast=6
   ws=($(hyprctl -j workspaces | jq '.[].id' | sort))
-  current=${1:-$(hyprctl -j activewindow | jq '.workspace.id')}
+  # current=${1:-$(hyprctl -j activewindow | jq '.workspace.id')}
+  current=${1-$(hyprctl -j monitors | jq -r '.[0].activeWorkspace.id')}
   max=$(( ${ws[-1]} > $atleast ? ${ws[-1]} : $atleast))
 
   printf '(box :class "works" :orientation "v" :halign "center" :valign "start" :space-evenly false :spacing "-5" '

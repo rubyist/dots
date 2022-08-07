@@ -2,8 +2,11 @@
   all: unset;
 }
 
+
 .eww_bar {
-  padding: 0;
+  padding: 0 8px;
+  margin: 0;
+  // padding: 0;
 }
 
 .works {
@@ -11,6 +14,7 @@
 }
 
 .works button {
+  border: none;
   margin: .4rem 0 .4rem 0;
   // color: #d27e99;
   color: #7e9cd8;
@@ -21,9 +25,10 @@
 }
 
 .time {
-  padding: .7rem 0 .5rem 0;
-  margin-left: 10px;
-  font-size: 1.5em;
+  margin-top: 20px;
+  // padding: .7rem 0 .5rem 0;
+  // margin-left: 10px;
+  font-size: 2em;
   font-weight: bold;
   // color: #C8C093;
   // color: #76946a;
@@ -31,3 +36,16 @@
   font-family: "Hack NF";
   // font-style: italic;
 }
+
+.bottom button {
+  font-size: 3em;
+  margin-bottom: 20px;
+  border: none;
+  color: #7e9cd8;
+  // padding-left: 20px;
+}
+
+.bottom button.muted {
+  color: #FF0000;
+}
+
