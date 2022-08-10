@@ -3,6 +3,7 @@
 (deflisten workspace :initial "" `/home/scott/.config/eww/scripts/workspaces`)
 
 (defpoll mute :interval "1s" `pactl get-sink-mute @DEFAULT_SINK@ | sed -e 's/Mute: //'`)
+(defpoll reviews :interval "5m" `/home/scott/.local/bin/github-reviews`)
 
 (defwidget time []
   (box :orientation "v"
@@ -33,11 +34,11 @@
        :class "bottom"
        :space-evenly false
        :valign "end"
+    (label :text "" :class {reviews == "true" ? "github reviews" : "github"})
     (eventbox :onscroll "echo {} | sed -e 's/up/+5%/' -e 's/down/-5%/' | xargs pactl set-sink-volume @DEFAULT_SINK@"
       (button :onclick "pactl set-sink-mute @DEFAULT_SINK@ toggle"
         :class {mute == "yes" ? "muted" : ""}
         ""))))
-
 
 (defwidget bar []
   (centerbox :class "eww_bar"
