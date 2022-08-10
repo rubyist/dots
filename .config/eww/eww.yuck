@@ -12,15 +12,22 @@
     (label :text hour)
     (label :text min)))
 
+(defwidget date []
+  (box :orientation "h"
+    :class "date"
+    (label :text today)))
+
 (defpoll hour :interval "1s" "date '+%H'")
 (defpoll min :interval "1s" "date '+%M'")
+(defpoll today :interval "1s" "date '+%m⋅%d'")
 
 (defwidget top []
   (box :orientation "v"
        :space-evenly "false"
        :valign "start"
        :spacing 5
-    (time)))
+    (time)
+    (date)))
 
 (defwidget center []
   (box :orientation "v"

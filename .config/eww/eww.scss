@@ -29,9 +29,16 @@
   font-family: "Hack NF";
 }
 
+.date {
+  color: #938aa9;
+  font-family: "Hack NF";
+  font-weight: bold;
+}
+
 .bottom .github {
-  font-size: 3em;
+  font-size: 2em;
   color: #7e9cd8;
+  margin-bottom: 15px;
 }
 
 .bottom .github.reviews {
@@ -39,8 +46,8 @@
 }
 
 .bottom button {
-  font-size: 3em;
-  margin-bottom: 15px;
+  font-size: 2em;
+  margin-bottom: 20px;
   border: none;
   color: #7e9cd8;
 }
