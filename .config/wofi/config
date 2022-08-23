@@ -1,0 +1,7 @@
+width=20%
+show=drun
+no_actions=true
+prompt=Search
+allow_images=true
+image_size=32
+columns=2
