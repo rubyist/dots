@@ -8,32 +8,58 @@
 # get the active window's workspace id
 aw=$(hyprctl -j activewindow | jq -r '.workspace.id')
 
+# get the active window's monitor
+am=$(hyprctl -j activewindow | jq -r '.monitor')
+
+# get the monitor width
+mw=$(hyprctl -j monitors | jq -r "map(select(.id == $am))[0].width")
+
 # save the active window's address to refocus
 aa=$(hyprctl -j activewindow | jq -r '.address')
 
 # get the count of windows on the workspace, only equalize if there are two or three
 n=$(hyprctl -j clients | jq -r "map(select(.workspace.id == $aw))|length")
 
-echo "active ws: $aw, active add: $aa, num: $n"
 case $n in
   2)
+    # get the largest window
+    lw=$(hyprctl -j clients | jq -r "map(select(.workspace.id == $aw)) | sort_by(.size[0])[-1]")
+    addr=$(echo "$lw" | jq -r '.address')
+    xpos=$(echo "$lw" | jq -r '.at[0]')
+    if (( $xpos < $mw/2 )); then
+      ratio="-0.3"
+    else
+      ration="+0.3"
+    fi
+
+    # get the width
     # focus the largest window on the workspace
-    hyprctl dispatch focuswindow address:$(hyprctl -j clients | jq -r "map(select(.workspace.id == $aw)) | sort_by(.size[0]) | .[-1].address")
+    hyprctl dispatch focuswindow address:"$addr"
     # splitratio it
-    hyprctl dispatch splitratio -0.3
+    hyprctl dispatch splitratio "$ratio"
     # refocus original active window
-    hyprctl dispatch focuswindow address:$aa
+    hyprctl dispatch focuswindow address:"$aa"
     ;;
   3)
-    echo "3 windows"
-    la=$(hyprctl -j clients | jq -r "map(select(.workspace.id == $aw)) | sort_by(.size[0]) | .[-1].address")
-    echo "largest: $la"
+    lw=$(hyprctl -j clients | jq -r "map(select(.workspace.id == $aw)) | sort_by(.size[0])[-1]")
+    echo $lw
+    addr=$(echo "$lw" | jq -r '.address')
+    xpos=$(echo "$lw" | jq -r '.at[0]')
+    if (( $xpos < $mw/2 )); then
+      ratio="-0.3"
+    else
+      ratio="+0.3"
+    fi
+
+    echo "x pos of biggest is $xpos width is $mw using ration $ratio"
+
+    # get the width
     # focus the largest window on the workspace
-    hyprctl dispatch focuswindow address:$la
+    hyprctl dispatch focuswindow address:"$addr"
     # splitratio it
-    hyprctl dispatch splitratio 0.3
+    hyprctl dispatch splitratio "$ratio"
     # refocus original active window
-    hyprctl dispatch focuswindow address:$aa
+    hyprctl dispatch focuswindow address:"$aa"
     ;;
 esac
 
