@@ -93,9 +93,13 @@ return packer.startup(function(use)
   use { "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" }
   use "p00f/nvim-ts-rainbow"
   use "nvim-treesitter/playground"
+  use 'nvim-treesitter/nvim-treesitter-context'
   use "JoosepAlviste/nvim-ts-context-commentstring"
 
   use "elkowar/yuck.vim"
+  use "mracos/mermaid.vim"
+
+  use "aklt/plantuml-syntax"
 
   if PACKER_BOOTSTRAP then
     require("packer").sync()

@@ -74,9 +74,6 @@ keymap("n", "<leader>e", ":NvimTreeToggle<cr>", opts)
 
 keymap("n", "<leader>h", "<cmd>nohlsearch<cr>", opts)
 
-keymap("n", "<leader>;", "<cmd>lua require('Comment.api').toggle_current_linewise()<cr>", opts)
-keymap("x", "<leader>;", '<esc><cmd>lua require("Comment.api").toggle_linewise_op(vim.fn.visualmode())<cr>', opts)
-
 keymap("n", "<leader>gg", ":Neogit<cr>", opts)
 
 -- harpoon
