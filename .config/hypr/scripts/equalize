@@ -27,9 +27,9 @@ case $n in
     addr=$(echo "$lw" | jq -r '.address')
     xpos=$(echo "$lw" | jq -r '.at[0]')
     if (( $xpos < $mw/2 )); then
-      ratio="-0.3"
+      ratio="-0.3333"
     else
-      ration="+0.3"
+      ration="+0.3333"
     fi
 
     # get the width
@@ -46,9 +46,9 @@ case $n in
     addr=$(echo "$lw" | jq -r '.address')
     xpos=$(echo "$lw" | jq -r '.at[0]')
     if (( $xpos < $mw/2 )); then
-      ratio="-0.3"
+      ratio="-0.3333"
     else
-      ratio="+0.3"
+      ratio="+0.3333"
     fi
 
     echo "x pos of biggest is $xpos width is $mw using ration $ratio"
