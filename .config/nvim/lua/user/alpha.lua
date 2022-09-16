@@ -54,5 +54,5 @@ dashboard.section.buttons.opts.hl = "Keyword"
 
 dashboard.opts.opts.noautocmd = true
 
-vim.cmd [[autocmd User AlphaReady hi Cursor blend=100 | autocmd BufUnload <buffer> hi Cursor blend=0]]
+-- vim.cmd [[autocmd User AlphaReady hi Cursor blend=100 | autocmd BufUnload <buffer> hi Cursor blend=0]]
 alpha.setup(dashboard.opts)
