@@ -35,5 +35,6 @@ alias s="kitty +kitten ssh"
 alias upper="sudo pacman -Syu"
 alias vim="nvim"
 alias yaml2json="python3 -c 'import sys, yaml, json; y=yaml.safe_load(sys.stdin.read()); print(json.dumps(y))'"
+alias marker="while true; do echo -e \"HTTP/1.1 200 OK\n\n\" | nc -l 0.0.0.0 8069; done"
 
 [ -f $HOME/.config/bash/work ] && . $HOME/.config/bash/work
