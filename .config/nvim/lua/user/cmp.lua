@@ -51,6 +51,10 @@ cmp.setup {
       return false
     end
 
+    if vim.bo.buftype == 'prompt' then
+      return false
+    end
+
     local context = require 'cmp.config.context'
     if vim.api.nvim_get_mode().mode == 'c' then
       return true
